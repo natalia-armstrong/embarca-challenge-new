@@ -1,0 +1,63 @@
+org: nataliaarmstrong
+app: Serverless-Inc-Role-Stack
+service: embarca-challenge
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: python3.9
+  region: us-east-1
+  deploymentBucket:
+    name: deployment-bucket-embarca-natalia-armstrong
+  environment:
+    S3_BUCKET: "deployment-bucket-embarca-natalia-armstrong"
+    DB_NAME: "embarca_db"
+    DB_USER: "postgres"
+    DB_PASSWORD: "1234"
+    DB_HOST: "127.0.0.1"
+    stackName: Serverless-Inc-Role-Stack
+
+functions:
+  lambda1:
+    handler: lambda_function/handler_lambda1.main
+    events:
+      - http:
+          path: lambda1
+          method: post
+
+  lambda2:
+    handler: lambda_function/handler_lambda2.main
+    events:
+      - http:
+          path: lambda2
+          method: post
+
+stepFunctions:
+  stateMachines:
+    myStateMachine:
+      definition:
+        StartAt: Lambda1
+        States:
+          Lambda1:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [lambda1, Arn]
+            Next: Lambda2
+          Lambda2:
+            Type: Task
+            Resource:
+              Fn::GetAtt: [lambda2, Arn]
+            End: true
+
+resources:
+  Resources:
+    CsvBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketName: "embarca-challenge-${opt:stage, 'dev'}-bucket-natalia-armstrong-${opt:region, 'us-east-1'}"
+
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-step-functions
+  - serverless-python-requirements

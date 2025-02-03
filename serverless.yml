@@ -1,6 +1,5 @@
-org: nataliaarmstrong
-app: Serverless-Inc-Role-Stack
-service: embarca-challenge
+
+service: embarca-challenge-new-dev
 
 frameworkVersion: '3'
 
@@ -8,6 +7,9 @@ provider:
   name: aws
   runtime: python3.9
   region: us-east-1
+  logs:
+    restApi: false
+    apiGateway: false 
   deploymentBucket:
     name: deployment-bucket-embarca-natalia-armstrong
   environment:
@@ -16,7 +18,9 @@ provider:
     DB_USER: "postgres"
     DB_PASSWORD: "1234"
     DB_HOST: "127.0.0.1"
-    stackName: Serverless-Inc-Role-Stack
+    stackName: embarca-challenge-new-dev
+
+
 
 functions:
   lambda1:

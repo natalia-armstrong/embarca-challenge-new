@@ -5,7 +5,7 @@ from io import StringIO
 import chardet
 from dotenv import load_dotenv
 import os
-from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData, inspect
+from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData
 from sqlalchemy.orm import sessionmaker
 
 load_dotenv()
@@ -32,8 +32,6 @@ def calculate_deaths(rows):
         for vehicle in vehicle_columns:
             vehicle_deaths[vehicle] += int(row.get(vehicle, 0))
 
-    print(f"Total de mortes: {total_deaths}")
-    print(f"Mortos por veículo: {vehicle_deaths}")
 
     insert_data = []
     for vehicle, deaths in vehicle_deaths.items():
@@ -62,11 +60,6 @@ def save_to_db(insert_data, db_url):
     
     metadata.create_all(engine)
 
-    inspector = inspect(engine)
-    tables = inspector.get_table_names()
-    print(f"Tabelas no banco de dados: {tables}")
-
-    # Inserção dos dados
     for data in insert_data:
         session.execute(accident_deaths.insert().values(data))
 

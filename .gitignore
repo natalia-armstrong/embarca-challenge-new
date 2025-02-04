@@ -2,3 +2,6 @@
 node_modules/
 package-lock.json
 package.json
+lambda1_output_clean.json
+lambda1_output.json
+/lambda_function/lambda2.zip

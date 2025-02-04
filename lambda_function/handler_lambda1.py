@@ -1,7 +1,6 @@
 import boto3
 import requests
 import os
-import yaml
 from datetime import datetime
 
 def main(event, context):

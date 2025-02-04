@@ -1,6 +1,6 @@
 boto3
-pandas
 requests
 psycopg2-binary
 sqlalchemy
 pyyaml
+python-dotenv

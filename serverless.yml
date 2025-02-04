@@ -63,11 +63,13 @@ stepFunctions:
             Type: Task
             Resource:
               Fn::GetAtt: [lambda1, Arn]
+            TimeoutSeconds: 30
             Next: Lambda2
           Lambda2:
             Type: Task
             Resource:
               Fn::GetAtt: [lambda2, Arn]
+            TimeoutSeconds: 30
             End: true
 
 resources:

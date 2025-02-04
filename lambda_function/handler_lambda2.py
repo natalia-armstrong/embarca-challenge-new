@@ -2,18 +2,20 @@ import boto3
 import csv
 from datetime import datetime
 from io import StringIO
+import chardet
 from dotenv import load_dotenv
 import os
 from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData
 from sqlalchemy.orm import sessionmaker
 
-# Carregar variáveis do .env
 load_dotenv()
 
 def process_csv(bucket_name, file_key):
     s3 = boto3.client('s3')
     response = s3.get_object(Bucket=bucket_name, Key=file_key)
-    file_content = response['Body'].read().decode('utf-8')
+    file_content_bytes = response['Body'].read()
+    detected_encoding = chardet.detect(file_content_bytes)['encoding']
+    file_content = file_content_bytes.decode(detected_encoding)
 
     csv_data = StringIO(file_content)
     reader = csv.DictReader(csv_data, delimiter=";")
@@ -25,7 +27,6 @@ def calculate_deaths(rows):
     vehicle_deaths = {vehicle: 0 for vehicle in vehicle_columns}
     total_deaths = 0
 
-    # Soma as mortes por veículo e o total de mortes
     for row in rows:
         total_deaths += int(row["mortos"])
         for vehicle in vehicle_columns:
@@ -34,12 +35,11 @@ def calculate_deaths(rows):
     print(f"Total de mortes: {total_deaths}")
     print(f"Mortos por veículo: {vehicle_deaths}")
 
-    # Preparar dados para inserção no banco de dados
     insert_data = []
     for vehicle, deaths in vehicle_deaths.items():
         insert_data.append({
             "created_at": datetime.now(),
-            "road_name": rows[0]["trecho"],  # Assumindo que o trecho seja o mesmo em todas as linhas
+            "road_name": rows[0]["trecho"], 
             "vehicle": vehicle,
             "number_deaths": deaths
         })
@@ -47,7 +47,7 @@ def calculate_deaths(rows):
     return insert_data
 
 def save_to_db(insert_data, db_url):
-    # Criação de uma engine para o banco de dados
+
     engine = create_engine(db_url)
     Session = sessionmaker(bind=engine)
     session = Session()

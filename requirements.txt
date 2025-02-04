@@ -1,6 +1,8 @@
 boto3
 requests
-psycopg2-binary
+pg8000
+#psycopg2-binary
 sqlalchemy
 pyyaml
 python-dotenv
+chardet==5.2.0

@@ -1,7 +1,10 @@
-
 service: embarca-challenge-new-dev
 
 frameworkVersion: '3'
+
+custom:
+  dotenv:
+    path: ./embarca.env
 
 provider:
   name: aws
@@ -13,24 +16,28 @@ provider:
   deploymentBucket:
     name: deployment-bucket-embarca-natalia-armstrong
   environment:
-    S3_BUCKET: "deployment-bucket-embarca-natalia-armstrong"
-    DB_NAME: "embarca_db"
-    DB_USER: "postgres"
-    DB_PASSWORD: "1234"
-    DB_HOST: "127.0.0.1"
+    S3_BUCKET: ${env:S3_BUCKET, 'not found'}
+    DB_URL: ${env:DB_URL, 'not found'}
+    DB_NAME: ${env:DB_NAME, 'not found'}
+    DB_USER: ${env:DB_USER, 'not found'}
+    DB_PASSWORD: ${env:DB_PASSWORD, 'not found'}
+    DB_HOST: ${env:DB_HOST, 'not found'}
     stackName: embarca-challenge-new-dev
   iamRoleStatements:
     - Effect: "Allow"
       Action:
         - "s3:PutObject"
-      Resource: "arn:aws:s3:::deployment-bucket-embarca-natalia-armstrong/csv_files/*"
+      Resource: 
+        - "arn:aws:s3:::deployment-bucket-embarca-natalia-armstrong/*"
 
-
+plugins:
+  - serverless-dotenv-plugin
+  - serverless-step-functions
+  - serverless-python-requirements
 
 functions:
   lambda1:
-    handler: lambda_function/handler_lambda1.main
-    layers:
+    handler: lambda_function.handler_lambda1.main 
     timeout: 30
     events:
       - http:
@@ -38,8 +45,7 @@ functions:
           method: post
 
   lambda2:
-    handler: lambda_function/handler_lambda2.main
-    functions:
+    handler: lambda_function.handler_lambda2.main 
     runtime: python3.9
     timeout: 30
     events:
@@ -71,7 +77,3 @@ resources:
       Properties:
         BucketName: "embarca-challenge-${opt:stage, 'dev'}-bucket-natalia-armstrong-${opt:region, 'us-east-1'}"
 
-plugins:
-  - serverless-dotenv-plugin
-  - serverless-step-functions
-  - serverless-python-requirements

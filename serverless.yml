@@ -19,12 +19,18 @@ provider:
     DB_PASSWORD: "1234"
     DB_HOST: "127.0.0.1"
     stackName: embarca-challenge-new-dev
+  iamRoleStatements:
+    - Effect: "Allow"
+      Action:
+        - "s3:PutObject"
+      Resource: "arn:aws:s3:::deployment-bucket-embarca-natalia-armstrong/csv_files/*"
 
 
 
 functions:
   lambda1:
     handler: lambda_function/handler_lambda1.main
+    timeout: 30
     events:
       - http:
           path: lambda1

@@ -3,6 +3,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 from datetime import datetime
 from io import StringIO
+import os
 
 def process_csv(bucket_name, file_key):
     s3 = boto3.client('s3')
@@ -53,8 +54,8 @@ def process_and_save(bucket_name, file_key, db_url):
     
     save_to_db(insert_data, db_url)
 
-bucket_name = 'step-functions-challenge-dev-bucket' 
-file_key = 'csv_files/Via Araucaria_20250203102246.csv' 
-db_url = 'postgresql://username:password@localhost:5432/mydatabase'
+bucket_name = os.getenv('BUCKET_NAME')
+file_key = os.getenv('FILE_KEY')
+db_url = os.getenv('DB_URL')
 
 process_and_save(bucket_name, file_key, db_url)

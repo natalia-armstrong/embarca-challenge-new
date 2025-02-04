@@ -30,6 +30,7 @@ provider:
 functions:
   lambda1:
     handler: lambda_function/handler_lambda1.main
+    layers:
     timeout: 30
     events:
       - http:
@@ -38,6 +39,9 @@ functions:
 
   lambda2:
     handler: lambda_function/handler_lambda2.main
+    functions:
+    runtime: python3.9
+    timeout: 30
     events:
       - http:
           path: lambda2

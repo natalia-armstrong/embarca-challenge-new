@@ -1,0 +1,22 @@
+services:
+  lambda1:
+    build:
+      context: .
+      dockerfile: Dockerfile.lambda1
+    container_name: lambda1-container
+    ports:
+      - "9001:9000"
+    env_file: 
+      - embarca.env 
+    command: ["lambda_function.handler_lambda1.main"]
+
+  lambda2:
+    build:
+      context: .
+      dockerfile: Dockerfile.lambda2
+    container_name: lambda2-container
+    ports:
+      - "9002:9000"
+    env_file: 
+      - embarca.env 
+    command: ["lambda_function.handler_lambda2.main"]

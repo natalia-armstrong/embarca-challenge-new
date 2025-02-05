@@ -3,7 +3,5 @@ node_modules/
 venv/
 package-lock.json
 package.json
-lambda1_output_clean.json
 lambda1_output.json
 lambda_function/lambda2.zip
-embarca.env

@@ -59,8 +59,17 @@ A tabela gerada pela segunda Lambda deverá conter as seguintes colunas:
 - **requirements.txt**: Dependências necessárias para o funcionamento das Lambdas.
 - **Dockerfile**: Para construção e execução local do ambiente.
 
+## Principais Documentações e procedimentos:
+- **Usar o Serverless Framework Local**: 
+
+
 ## Principais Comandos
-- **serverless invoke -f lambda1 -p event.json**: Invoca uma função Lambda específica, no caso a função lambda1, dentro de um ambiente Serverless Framework.
-- **serverless invoke -f lambda2 -p lambda1_output_clean.json**: Invoca uma função Lambda específica, no caso a função lambda2, dentro de um ambiente Serverless Framework.
-- **(dentro do diretório lambda_function) python -m unittest test_handler_lambda1.py**: Testa o arquivo python handler_lambda1.py.
-- **(dentro do diretório lambda_function) python -m unittest test_handler_lambda2.py**: Testa o arquivo python handler_lambda2.py.
+- **serverless deploy**: Implantar de um serviço na nuvem
+- **serverless invoke -f lambda1 -p event.json**: Invocar uma função Lambda específica, no caso a função lambda1, dentro de um ambiente Serverless Framework.
+- **serverless invoke -f lambda2 -p lambda1_output_clean.json**: Invocar uma função Lambda específica, no caso a função lambda2, dentro de um ambiente Serverless Framework.
+- **(dentro do diretório lambda_function) python -m unittest test_handler_lambda1.py**: Testar o arquivo python handler_lambda1.py.
+- **(dentro do diretório lambda_function) python -m unittest test_handler_lambda2.py**: Testar o arquivo python handler_lambda2.py.
+
+## Mais informações de configuração e acesso:
+- **Link da documentação**: https://radial-quark-6a1.notion.site/Embarca-Docs-1914c6677e9780f89320dc9640960705
+    P.S: Escolhi documentar através do notion pois acredito ser uma ótima plataforma de documentação e gostaria de compartilhar esse conhecimento.

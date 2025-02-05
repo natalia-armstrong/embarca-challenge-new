@@ -30,7 +30,7 @@ jobs:
         python -m unittest test_handler_lambda1.py
 
     - name: Install Serverless Framework
-        run: npm install -g serverless
+      run: npm install -g serverless
 
     - name: Deploy to AWS
       env:

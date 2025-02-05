@@ -25,8 +25,8 @@ jobs:
     
     - name: Run tests
       run: |
-        # Substitua pelo comando para rodar seus testes, como pytest
-        pytest
+        python -m unittest lambda_function/test_handler_lambda1.py
+        python -m unittest lambda_function/test_handler_lambda1.py
 
     - name: Deploy
       if: github.ref == 'refs/heads/main'

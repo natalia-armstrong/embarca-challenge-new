@@ -14,7 +14,7 @@ provider:
     restApi: false
     apiGateway: false 
   deploymentBucket:
-    name: deployment-bucket-embarca-natalia-armstrong
+    name: ${env:S3_BUCKET, 'not found'}
   environment:
     S3_BUCKET: ${env:S3_BUCKET, 'not found'}
     DB_URL: ${env:DB_URL, 'not found'}
